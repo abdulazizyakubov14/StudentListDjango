@@ -10,14 +10,19 @@ class Mentors(models.Model):
     def __str__(self):
         return self.class_mentor
 
-class Weekday(models.Model):
-    days = models.CharField('Hafta Kuni',max_length=50)
-    def __str__(self):
-        return self.days
-
 class Groups(models.Model):
+    COURSE_DAY = (
+                    ('Dush-Chor-Juma','Dush-Chor-Juma'),
+                    ('Sesh-Pay-Shan','Sesh-Pay-Shan'))
+    COURSE_TIME = (
+                ('09:00 dan 11:00 gacha','09:00 dan 11:00 gacha'),
+                ('13:00 dan 15:00 gacha','13:00 dan 15:00 gacha'),
+                ('15:00 dan 17:00 gacha','15:00 dan 17:00 gacha'),
+                ('17:00 dan 18:00 gacha','17:00 dan 18:00 gacha'))
     group_name = models.CharField('Guruh nomi' ,max_length=100)
     group_year = models.DateField('Yaratilgan sanai', auto_now_add=True)
+    weekday = models.CharField('Hafta kunlari',max_length=200,choices=COURSE_DAY)
+    course_times = models.CharField('Dars vaqtlari',max_length=200,choices=COURSE_TIME)
     slug = models.SlugField('*',max_length=100)
     def get_absolute_url(self):
         return reverse("main:group_detail", kwargs={"group_slug": self.slug})
@@ -36,7 +41,6 @@ class Student(models.Model):
     pay = models.BooleanField('To\'lovi',default=False)
     slug = models.SlugField('*',max_length=100)
     groups = models.ForeignKey(Groups, related_name='groups',on_delete=models.PROTECT)
-    Weekdays = models.ManyToManyField(Weekday,)
     class_mentors = models.ForeignKey(Mentors, on_delete=models.PROTECT)
 
     def __str__(self):
