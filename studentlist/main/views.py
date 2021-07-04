@@ -1,5 +1,6 @@
-from .forms import *
-from django.shortcuts import render
+
+from django.db.models import fields
+from django.shortcuts import redirect, render
 from django.views.generic.detail import DetailView
 from .models import *
 from django.views.generic import (
@@ -23,10 +24,13 @@ from django.views.generic.edit import(
 class HomeView(View):
     def get(self,request):
         model = Groups.objects.all()
+        students = Student.objects.all()
+        all_student = len(students)
         group_id = len(model)
         context = {
             'model':model,
             'group_id':group_id,
+            'all_student':all_student
         }
         return render(request,'index.html',context)
 
@@ -35,35 +39,54 @@ def group_page(request,group_slug):
     classs = group.groups.all
     context = {
         'group':classs,
-        'model':model
     }
     return render(request,'detail.html',context)
 
 
-class CreateGoup(View):
-    def get(self,request):
-        form = CreateForm(request.GET)
+class CreatGroup(CreateView):
+    model = Groups
+    fields = '__all__'
+    template_name = 'create.html'
+    success_url = '/'
 
-        context = {
-            'form':form
-        }
-    def post(self,request):
-        form = CreateForm(request.POST)
-        if form.is_valid():
-            form.save()
-        else:
-            form = CreateForm()
+class CreatStudent(CreateView):
+    model = Student
+    fields = '__all__'
+    template_name = 'create.html'
+    success_url = '/'
 
+class UpadateGroup(UpdateView):
+    model = Groups
+    fields = '__all__'
+    success_url = '/'
+    template_name = 'create.html'
 
-# class CreatGroup(CreateView):
-#     model = Groups
-#     fields = ['group_name','weekday','course_times','slug',]
-#     template_name = 'create.html'
-#     success_url = '/'
+class UpadateStudent(UpdateView):
+    model = Student
+    fields = '__all__'
+    success_url = '/'
+    template_name = 'create.html'
+    
+class DeletGroup(DeleteView):
+    model = Groups
+    success_url = '/'
+    template_name = 'delete.html'
 
-# class CreatStudent(CreateView):
-#     model = Student
-#     fields = '__all__'
-#     template_name = 'create.html'
-#     success_url = '/'
+class DeletStudent(DeleteView):
+    model = Student
+    success_url = '/'
+    template_name = 'delete.html'
+
+def search(request):
+    q = request.GET.get('search',None)
+    model = Student.objects.filter(name__icontains=q)
+    res = len(model)
+    context = {
+        'res':res,
+        'model':model,
+        
+    }
+
+    return render(request,'search.html',context)
+
 

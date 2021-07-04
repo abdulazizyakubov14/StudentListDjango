@@ -3,10 +3,11 @@
 {% block content %}
 <div class="container">
 
+  <a href="#" class="btn btn-primary"><i class="fas fa-users"></i> Barcha Guruhla | {{group_id}}</a>
+  <a href="#" class="btn btn-success"><i class="fas fa-user"></i>  Barcha O'quvchilar | {{all_student}}</a>
+<br><br>
 <div class="row">
 {% for p in model %}
-    
-
     <div class="col-lg-3">
       <div class="card" style="width: 18rem;">
         <img src="https://www.pinclipart.com/picdir/middle/172-1725441_computer-person-clipart.png" class="card-img-top" alt="...">
@@ -17,8 +18,9 @@
           <p class="card-text">Dars vaqti : {{p.course_times}}</p>
           <p class="card-text">Yaratilgan sanai : {{p.group_year}}</p>
           <a href="{{p.get_absolute_url}}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
-          <a href="{{p.get_absolute_url}}" class="btn btn-success"><i class="fas fa-pen-square"></i></a>
-          <a href="{{p.get_absolute_url}}" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+          <a href="{% url 'main:student_create' %}" class="btn btn-info"><i class="fas fa-user-plus"></i></a>
+          <a href="{% url 'main:upadet_group' p.pk %}" class="btn btn-success"><i class="fas fa-pen-square"></i></a>
+          <a href="{% url 'main:delete_group' p.pk %}" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
         </div>
       </div>
     </div><br><br>

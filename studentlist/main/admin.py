@@ -6,6 +6,7 @@ class StudentAdmin(admin.ModelAdmin):
 	list_display = ['name', 'id']
 	list_display_links = ['name']
 	prepopulated_fields = {'slug':('name',)}
+	
 @admin.register(Groups)
 class GroupAdmin(admin.ModelAdmin):
 	list_display = ['group_name', 'id']

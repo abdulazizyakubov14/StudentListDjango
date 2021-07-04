@@ -30,9 +30,6 @@ class Groups(models.Model):
     def __str__(self):
         return self.group_name
 
-    def __str__(self):
-        return self.group_name
-
 class Student(models.Model):
     name = models.CharField('Ismi',max_length=100)
     surname = models.CharField('Familiysai',max_length=100)
@@ -40,7 +37,7 @@ class Student(models.Model):
     address = models.CharField('Yashash manzili',max_length=200,blank=True)
     pay = models.BooleanField('To\'lovi',default=False)
     slug = models.SlugField('*',max_length=100)
-    groups = models.ForeignKey(Groups, related_name='groups',on_delete=models.PROTECT)
+    groups = models.ForeignKey(Groups, related_name='groups',on_delete=models.CASCADE)
     class_mentors = models.ForeignKey(Mentors, on_delete=models.PROTECT)
 
     def __str__(self):
