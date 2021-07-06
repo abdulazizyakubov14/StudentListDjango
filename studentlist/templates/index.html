@@ -5,6 +5,18 @@
 
   <a href="#" class="btn btn-primary"><i class="fas fa-users"></i> Barcha Guruhla | {{group_id}}</a>
   <a href="#" class="btn btn-success"><i class="fas fa-user"></i>  Barcha O'quvchilar | {{all_student}}</a>
+  
+  {% if pays %}
+    <a href="{% url 'main:pays' %}" class="btn btn-primary"><i class="fas fa-user"></i> To'lov qilganlar {{p}} </a>
+    
+  {% endif %}
+  
+  {% if notpay %}
+  <a href="{% url 'main:notpay' %}" class="btn btn-danger"><i class="fas fa-user"></i>  To'lov qilmaganlar {{s}} </a>
+  {% endif %}
+    
+
+
 <br><br>
 <div class="row">
 {% for p in model %}
@@ -17,6 +29,7 @@
           <p class="card-text">Dars kunlari : {{p.weekday}}<p>
           <p class="card-text">Dars vaqti : {{p.course_times}}</p>
           <p class="card-text">Yaratilgan sanai : {{p.group_year}}</p>
+          <p class="card-text">Mentor : {{p.mentors}}</p>
           <a href="{{p.get_absolute_url}}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
           <a href="{% url 'main:student_create' %}" class="btn btn-info"><i class="fas fa-user-plus"></i></a>
           <a href="{% url 'main:upadet_group' p.pk %}" class="btn btn-success"><i class="fas fa-pen-square"></i></a>

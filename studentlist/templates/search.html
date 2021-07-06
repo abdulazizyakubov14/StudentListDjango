@@ -16,7 +16,14 @@
             <p class="card-text">Manzili : {{object.address}}</p>
             <p class="card-text">Mentor : {{object.class_mentors}}</p>
             <p class="card-text">Guruhi : {{object.groups}}</p>
-              <button type="submit">{{object.pay}}</button>
+            {% if object.pay %}
+            <a href="{% url 'main:pay' object.pk %}" class="btn btn-success">To'landi</a>
+
+            {% else %}
+            <a href="{% url 'main:pay' object.pk %}" class="btn btn-danger">To'lanmadi</a>
+            {% endif %}
+              
+              
             <a href="{% url 'main:upadet_student' object.pk %}" class="btn btn-success"><i class="fas fa-pen-square"></i></a>
             <a href="{% url 'main:delete_student' object.pk %}" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
           </div>

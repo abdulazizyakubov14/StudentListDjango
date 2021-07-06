@@ -23,16 +23,36 @@ from django.views.generic.edit import(
 
 class HomeView(View):
     def get(self,request):
+        pays = Student.objects.filter(pay=True)
+        notpay = Student.objects.filter(pay=False)
         model = Groups.objects.all()
         students = Student.objects.all()
         all_student = len(students)
         group_id = len(model)
+        p = len(pays)
+        s = len(notpay)
         context = {
+            'p':p,
+            's':s,
+            'pays': pays,
+            'notpay':notpay,
             'model':model,
             'group_id':group_id,
             'all_student':all_student
         }
         return render(request,'index.html',context)
+
+
+class PayView(View):
+    def get(self,request):
+        pays = Student.objects.filter(pay=True)
+        return render(request,'pay.html',{'pays':pays})
+
+class NotPayView(View):
+    def get(self,request):
+        pays = Student.objects.filter(pay=False)
+        return render(request,'not_pay.html',{'pays':pays})
+
 
 def group_page(request,group_slug):
     group = Groups.objects.get(slug=group_slug)
@@ -41,6 +61,18 @@ def group_page(request,group_slug):
         'group':classs,
     }
     return render(request,'detail.html',context)
+
+def pay(request, id):
+    payment = Student.objects.get(id=id)
+    if payment.pay == True:
+        payment.pay = False
+        payment.save()
+
+    elif payment.pay == False:
+        payment.pay = True
+        payment.save()
+
+    return redirect('/')
 
 
 class CreatGroup(CreateView):
